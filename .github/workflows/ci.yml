@@ -7,14 +7,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
-    - name: Run tests
-      run: |
-        pytest
+      - uses: actions/checkout@v3  # Последняя версия
+      - name: Set up Python
+        uses: actions/setup-python@v4  # Совместимо с Node 20
+        with:
+          python-version: '3.10'  # Вы можете заменить на нужную версию Python
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip  # Убедитесь, что pip обновлен
+          pip install -r requirements.txt
+      - name: Run tests
+        run: |
+          pytest
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
