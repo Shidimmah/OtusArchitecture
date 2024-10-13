@@ -16,3 +16,4 @@ def solve(a, b, c):
         x = -b / (2 * a)
         return [x, x]
     return []
+
